@@ -184,9 +184,10 @@ Codex CLI가 기본으로 인식하고, Gemini와 Claude도 설정이나 링크�
 ## 참고 자료
 
 ### 공식 문서
-- [Claude Code Documentation](https://docs.anthropic.com/claude-code)
+- [AGENTS.md 공식 사이트](https://agents.md) - 20,000+ 오픈소스 프로젝트에서 사용하는 AI 에이전트 지침 표준
+- [Claude Code Documentation](https://docs.anthropic.com/claude-code) - CLAUDE.md 기반 지침 시스템
 - [Gemini CLI Documentation](https://google-gemini.github.io/gemini-cli/)
 - [OpenAI Codex CLI Documentation](https://github.com/openai/codex)
 
 ### 관련 블로그
-- [AI Agent를 위한 Frontend 개발 가이드: AGENTS.md로 Next.js + shadcn/ui 프로젝트 구조 설계](./frontend-ai-agent-development-guide.md)
+- [AI Agent를 위한 Frontend 개발 가이드: AGENTS.md로 Next.js + shadcn/ui 프로젝트 구조 설계](https://blog.imprun.dev/68)

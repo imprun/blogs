@@ -340,7 +340,7 @@ frontend/
 
 ## 부록: 전체 AGENTS.md 원본
 
-> **에이전트별 설정 방법**: Claude Code, Gemini CLI, Codex CLI에서 AGENTS.md를 인식하도록 설정하는 방법은 [Claude, Gemini, Codex에서 AGENTS.md 설정하기](./ai-agents-md-configuration-guide.md)를 참조하세요.
+> **에이전트별 설정 방법**: Claude Code, Gemini CLI, Codex CLI에서 AGENTS.md를 인식하도록 설정하는 방법은 [Claude, Gemini, Codex에서 AGENTS.md 설정하기](https://blog.imprun.dev/69)를 참조하세요.
 
 아래는 실제 프로젝트에서 사용 중인 AI Agent 가이드 문서 전체입니다 (752줄):
 
