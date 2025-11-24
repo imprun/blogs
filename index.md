@@ -8,6 +8,7 @@
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/67 | [Claude, Codex, Gemini가 본 API Gateway 콘솔 메뉴 구조: AI 모델별 UX 리뷰 비교](2025/11/24/ai-models-review-comparison-api-gateway-menu.md) |
 | https://blog.imprun.dev/66 | [Kubernetes 환경에서 Keycloak 커스텀 로그인 테마 배포하기](2025/11/23/keycloak-custom-theme.md) |
 | https://blog.imprun.dev/65 | [Kubernetes Ephemeral Storage 문제 해결 가이드](2025/11/18/kubernetes-ephemeral-storage-troubleshooting-guide.md) |
 | https://blog.imprun.dev/64 | [Kubernetes Ephemeral Storage 부족으로 인한 MongoDB Pod Eviction 트러블슈팅](2025/11/18/mongodb-eviction-kubernetes-storage-crisis.md) |
