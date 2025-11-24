@@ -8,6 +8,7 @@
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/69 | [Claude, Gemini, Codex에서 AGENTS.md 설정하기: AI 에이전트 통합 가이드](2025/11/24/ai-agents-md-configuration-guide.md) |
 | https://blog.imprun.dev/68 | [AI Agent를 위한 Frontend 개발 가이드: AGENTS.md로 Next.js + shadcn/ui 프로젝트 구조 설계](2025/11/24/frontend-ai-agent-development-guide.md) |
 | https://blog.imprun.dev/67 | [Claude, Codex, Gemini가 본 API Gateway 콘솔 메뉴 구조: AI 모델별 UX 리뷰 비교](2025/11/24/ai-models-review-comparison-api-gateway-menu.md) |
 | https://blog.imprun.dev/66 | [Kubernetes 환경에서 Keycloak 커스텀 로그인 테마 배포하기](2025/11/23/keycloak-custom-theme.md) |
