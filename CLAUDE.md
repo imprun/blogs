@@ -232,6 +232,33 @@ $ 검증 명령어 실행
 
 ---
 
+## 이미지 사용 규칙
+
+### 외부 이미지 링크
+
+- **공식 문서 이미지**: 공식 사이트의 이미지는 직접 링크하여 사용 가능
+- **출처 표기**: 이미지 아래에 출처를 명시
+
+```markdown
+![이미지 설명](https://official-site.com/path/to/image.jpg)
+*출처: [공식 문서 이름](https://official-site.com/docs)*
+```
+
+### 이미지 사용 예시
+
+```markdown
+![FSD 레이어 구조](https://feature-sliced.design/assets/images/visual_schema.jpg)
+*출처: [Feature-Sliced Design 공식 문서](https://feature-sliced.design/docs/get-started/overview)*
+```
+
+### 주의사항
+
+- 저작권이 있는 이미지는 사용하지 않음
+- 공식 문서, 오픈소스 프로젝트의 이미지만 링크
+- 이미지 URL이 변경될 수 있으므로 중요한 내용은 텍스트로도 설명
+
+---
+
 ## Mermaid 다이어그램 규칙
 
 ### 스타일 규칙
