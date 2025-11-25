@@ -925,7 +925,7 @@ PR을 준비합니다: 코드 정리, 테스트 실행, 변경사항 스테이�
 
 ## 참고 자료
 
-### 영감을 받은 글
+### catchup 소개 글
 - [How I Use Every Claude Code Feature](https://blog.sshh.io/p/how-i-use-every-claude-code-feature) - Shrivu Shankar
 
 ### 공식 문서
