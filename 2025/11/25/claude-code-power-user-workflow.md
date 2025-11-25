@@ -6,7 +6,7 @@
 
 ## 요약
 
-imprun 팀에서 프로젝트 전체 기간 동안 매일 사용하는 Claude Code 실무 개발 워크플로우를 공유합니다. 새 기능 설계부터 구현, 일일 진행상황 추적, 주간보고까지 모든 과정을 자동화합니다. AI 질문으로 EPIC 문서 생성(`/create-epic`), EPIC을 Story로 분해(`/epic-start`), 매일 출근 시 Serena MCP로 코드 분석(`/daily-start`), 작업 중 `/clear` + `/catchup`으로 컨텍스트 복구, 퇴근 시 Story 진행률 자동 업데이트(`/daily-end`), 주간보고 자동 생성(`/weekly-report`)합니다. 프로젝트 종료까지 매일 반복되는 핵심 워크플로우입니다.
+imprun 팀에서 프로젝트 전체 기간 동안 매일 사용하는 Claude Code 실무 개발 워크플로우를 공유합니다. 새 기능 설계부터 구현, 일일 진행상황 추적, 주간보고까지 모든 과정을 자동화합니다. AI 질문으로 EPIC 문서 생성(`/create-epic`), EPIC을 Story로 분해(`/start-epic`), 매일 출근 시 Serena MCP로 코드 분석(`/daily-start`), 작업 중 `/clear` + `/catchup`으로 컨텍스트 복구, 퇴근 시 Story 진행률 자동 업데이트(`/daily-end`), 주간보고 자동 생성(`/weekly-report`)합니다. 프로젝트 종료까지 매일 반복되는 핵심 워크플로우입니다.
 
 ## 배경: 실무 프로젝트의 전체 생명주기 관리
 
@@ -59,7 +59,7 @@ AI가 아무리 코드를 잘 작성해도, 이런 실무 프로세스는 여전
 imprun 팀에서는 **커스텀 명령어**로 이 모든 과정을 자동화했습니다:
 
 - `/create-epic`: AI 질문으로 EPIC 문서 자동 생성
-- `/epic-start`: EPIC → Story 자동 분해
+- `/start-epic`: EPIC → Story 자동 분해
 - `/daily-start` / `/daily-end`: 일일 진행상황 자동 추적
 - `/weekly-report`: 주간보고 자동 생성
 
@@ -71,7 +71,7 @@ imprun 팀에서는 **커스텀 명령어**로 이 모든 과정을 자동화했
 
 **포함된 명령어:**
 - `create-epic.md` - EPIC 문서 생성
-- `epic-start.md` - EPIC → Story 분해
+- `start-epic.md` - EPIC → Story 분해
 - `daily-start.md` - 출근 시 컨텍스트 복구
 - `catchup.md` - 작업 중 빠른 복구
 - `daily-end.md` - 퇴근 시 상태 저장
@@ -100,7 +100,7 @@ graph TB
     end
 
     subgraph "2. 구현 계획"
-        B --> C["/epic-start"]
+        B --> C["/start-epic"]
         C --> D[".context/stories/<br/>Story 파일들"]
         C --> E[".context/progress.md<br/>진행률 추적"]
     end
@@ -129,6 +129,7 @@ graph TB
     style I stroke:#16a34a,stroke-width:2px
     style K stroke:#2563eb,stroke-width:2px
 ```
+---
 
 ## 핵심 구성요소
 
@@ -147,6 +148,9 @@ Git에 커밋되지 않으므로 개인적인 메모, WIP 상태, 팀원 확인�
 
 `.context/progress.md`:
 
+<details>
+<summary><strong>예제 전체 보기</strong></summary>
+
 ```markdown
 # EPIC-001: API Gateway 기능 진행상황
 
@@ -163,6 +167,33 @@ Git에 커밋되지 않으므로 개인적인 메모, WIP 상태, 팀원 확인�
 | [Story 1.2](stories/EPIC-001-story-1.2.md) | 🏗️ In Progress | 4 | 2 | 50% | - |
 | [Story 1.3](stories/EPIC-001-story-1.3.md) | ⏳ Not Started | 5 | 0 | 0% | - |
 | **Total** | - | **15** | **8** | **53%** | - |
+
+---
+
+## ✅ Task 체크리스트 (Single Source of Truth)
+
+**progress.md에서만 Task를 체크합니다.** Story 파일은 참조용입니다.
+
+### Story 1.1: Backend API
+- [x] Subscription 모델 확장
+- [x] Repository 메서드 구현
+- [x] API 핸들러 작성
+- [x] 유닛 테스트 작성
+- [x] API 문서 작성
+- [x] 통합 테스트
+
+### Story 1.2: Frontend Hooks
+- [x] Dashboard Stats Hook 구현
+- [x] Subscription Table Hook 구현
+- [ ] Approval Actions Hook 구현
+- [ ] Error Handling 추가
+
+### Story 1.3: UI Components
+- [ ] Dashboard Stats Card
+- [ ] Subscription Table
+- [ ] Approval Dialog
+- [ ] Status Badge
+- [ ] Loading States
 
 ---
 
@@ -195,7 +226,11 @@ Story 1.3 (P1: UI Components) ⏳ ←── Story 1.2 필요
 - 팀원 확인 필요: Dashboard Stats API 스키마 확정
 ```
 
+</details>
+
 Story 기반 진행률 추적과 일일 로그를 단일 파일로 관리합니다.
+
+---
 
 ## 핵심 명령어
 
@@ -311,7 +346,7 @@ Story 기반 진행률 추적과 일일 로그를 단일 파일로 관리합니�
 1. EPIC 문서 리뷰 및 개선
 2. GitHub 이슈와 연결 (없으면 생성)
 3. PR 생성 및 병합
-4. `/epic-start` 명령어로 Story 분해 시작
+4. `/start-epic` 명령어로 Story 분해 시작
 
 **참고 문서** (자동 링크 추가):
 - 분석 문서가 있으면 EPIC의 Background 섹션에 링크 추가
@@ -322,7 +357,7 @@ Story 기반 진행률 추적과 일일 로그를 단일 파일로 관리합니�
 
 ---
 
-### /epic-start: EPIC을 Story로 분해
+### /start-epic: EPIC을 Story로 분해
 
 EPIC 문서 작성 후, Story 단위로 분해하는 명령어입니다.
 
@@ -338,7 +373,7 @@ EPIC 문서 작성 후, Story 단위로 분해하는 명령어입니다.
 <details>
 <summary><strong>명령어 전체 보기</strong></summary>
 
-`.claude/commands/epic-start.md`:
+`.claude/commands/start-epic.md`:
 
 ~~~markdown
 EPIC 문서를 Story별 구현 계획으로 분해하고, `.context/progress.md`에 체크리스트를 생성합니다.
@@ -595,11 +630,21 @@ EPIC과 개발자 답변을 바탕으로 다음 파일들을 생성합니다:
 /context
 ```
 
-VSCode 확장에서는 컨텍스트가 부족해지면 상태 표시줄에 경고 아이콘이 나타납니다. 아이콘이 보이면 `/clear` + `/catchup`으로 복구하세요.
+```mermaid
+graph LR
+    A["⚠️ 컨텍스트 부족<br/>(상태 표시줄 경고)"] --> B["/clear"]
+    B --> C["/catchup"]
+    C --> D["✅ 컨텍스트 복구 완료"]
+
+    style A stroke:#dc2626,stroke-width:2px
+    style B stroke:#ea580c,stroke-width:2px
+    style C stroke:#ea580c,stroke-width:2px
+    style D stroke:#16a34a,stroke-width:2px
+```
+
+VSCode 확장에서는 컨텍스트가 부족해지면 상태 표시줄에 경고 아이콘이 나타납니다.
 
 **/clear + /catchup 패턴**
-
-컨텍스트가 부족해지면:
 
 ```bash
 /clear           # 상태 완전 초기화
@@ -640,10 +685,10 @@ VSCode 확장에서는 컨텍스트가 부족해지면 상태 표시줄에 경�
 오늘 작업을 정리하고 내일을 위해 상태를 저장합니다.
 
 **주요 기능:**
-- AI가 질문을 통해 개발자로부터 컨텍스트 수집
-- Story 파일의 Task 체크박스 자동 업데이트
-- `.context/progress.md` 진행률 테이블 및 일일 로그 업데이트
-- 중요 의사결정이나 설계 변경 시에만 `.context/daily/` 파일 생성
+- Git 상태와 progress.md를 자동 분석 (질문 전에 먼저 파악)
+- `.context/progress.md`만 업데이트 (이중 관리 방지)
+- 간결한 보고 형식 (오늘 진행 + 내일 우선순위)
+- Uncommitted 변경사항 있으면 AI가 커밋 메시지 작성 후 커밋
 
 <details>
 <summary><strong>명령어 전체 보기</strong></summary>
@@ -653,46 +698,53 @@ VSCode 확장에서는 컨텍스트가 부족해지면 상태 표시줄에 경�
 ~~~markdown
 오늘 작업을 정리하고 내일을 위해 상태를 저장합니다.
 
-## 1단계: 개발자에게 질문
+## 1단계: 자동 분석 (질문 없이 먼저 진행)
 
-다음 질문에 답변해주세요 (모르면 스킵 가능):
+1. **Git 상태 분석**
+   - `git status`로 변경된 파일 확인
+   - `git log --oneline --since="8 hours ago"`로 오늘 커밋 확인
 
-1. 오늘 완료한 작업은 무엇인가요? (Story/Task 단위로)
-2. 오늘 작업하면서 막힌 부분이 있었나요?
-3. 내일 우선적으로 처리해야 할 작업이 있나요?
-4. (팀 환경인 경우) 팀원에게 확인할 사항이 있나요?
+2. **진행 중인 Story 파악**
+   - `.context/progress.md` 읽기
+   - 🏗️ In Progress 상태인 Story 확인
 
-## 2단계: 문서 업데이트
+## 2단계: 개발자에게 간단히 질문
 
-답변을 바탕으로:
+> 오늘 완료한 Task가 있나요? (Story 번호와 Task 번호만 알려주세요)
+> 예: "Story 1.2의 Task 3, 4 완료" 또는 "없음"
 
-1. **Story 파일 업데이트** (`.context/stories/EPIC-*-story-*.md`)
-   - 작업한 Story의 Task 체크박스 업데이트 (완료 항목 체크)
-   - Story 상태 업데이트 (⏳ → 🏗️ → ✅)
+## 3단계: progress.md만 업데이트
 
-2. **진행상황 파일 업데이트** (`.context/progress.md`)
-   - **전체 진행률 테이블 업데이트** (Story 상태, Tasks 완료 수, 진행률 계산)
-   - **일일 로그 추가** (오늘 날짜 섹션에 완료한 작업 기록)
-   - **메모 섹션 업데이트** (막힌 부분, 중요 의사결정)
+**⚠️ Story 파일은 수정하지 않습니다.** (이중 관리 방지)
 
-3. `.context/daily/$(date +%Y-%m-%d).md` 생성 (**다음 조건 시에만**)
-   - 중요한 의사결정이 있었을 때
-   - 복잡한 기술적 이슈를 해결했을 때
-   - 설계 변경이 발생했을 때
+`.context/progress.md`만 업데이트:
+- 전체 진행률 테이블의 완료 Tasks 수, 진행률 갱신
+- 일일 로그에 오늘 날짜 섹션 추가 (1-2줄)
 
-   **일반적인 작업 진행은 Story 파일 + progress.md로 충분합니다.**
+## 4단계: 간결한 보고
 
-## 3단계: 코드 상태 확인 및 커밋 안내
+다음 형식으로 짧게 보고:
 
-- `git status`로 uncommitted 변경사항 확인
-- WIP 작업이 있다면 커밋 권장:
-  ```bash
-  git add .
-  git commit -m "WIP: [작업 내용 요약]"
-  ```
-- 완료된 작업이 있다면 정식 커밋 권장
+```
+📋 오늘 진행
+- Story X.X: N개 Task 완료 (Z% → W%)
 
-**Note**: AI는 자동으로 커밋하지 않습니다. 개발자가 직접 실행하세요.
+🎯 내일 우선순위
+- Story X.X 계속 (N개 Task 남음)
+```
+
+## 5단계: Uncommitted 변경사항 처리
+
+`git status`로 uncommitted 변경사항이 있으면:
+
+```
+⚠️ Uncommitted 변경사항: N개 파일
+
+커밋하시겠습니까? (y/n)
+```
+
+**y 응답 시**: 변경사항을 분석하여 커밋 메시지 작성 후 커밋 실행
+**n 응답 시**: 스킵
 ~~~
 
 </details>
@@ -801,7 +853,7 @@ git commit -m "docs: add EPIC-001 API Gateway"
 # PR 생성 및 팀 리뷰
 
 # 3. EPIC을 Story로 분해
-/epic-start
+/start-epic
 # → .context/stories/EPIC-001-story-*.md 생성
 # → .context/progress.md 생성 (Story 진행률 테이블)
 
@@ -832,13 +884,18 @@ graph LR
 
 **명령어 비교**:
 - `/create-epic`: EPIC 문서 생성 (KEP 스타일, 새 기능 설계 시 1회)
-- `/epic-start`: EPIC → Story 분해 (새 기능 구현 시작 시 1회)
+- `/start-epic`: EPIC → Story 분해 (새 기능 구현 시작 시 1회)
 - `/daily-start`: 하루 시작 시 사용. Story 진행률 + Git 상태 + Serena MCP 코드 분석
 - `/catchup`: 작업 중 컨텍스트 복구 시 사용. Git diff 중심의 빠른 복구
-- `/daily-end`: Story 파일과 progress.md 자동 업데이트
+- `/daily-end`: progress.md만 업데이트 + 커밋 자동화
 - `/weekly-report`: 전체 Story 진행률 기반 주간보고 생성
+- `/sync-progress`: Story 파일과 progress.md 동기화
 
 ## 추가 커스텀 명령어
+
+### /sync-progress - 진행률 동기화
+
+Story 파일과 progress.md가 불일치할 때 동기화합니다. 주간보고 전 정확한 진행률 확인 시 유용합니다.
 
 ### /pr - PR 준비 자동화
 
