@@ -38,7 +38,7 @@ feature-sliced design + nextjs app router를 적용할 것이다.
 | Claude | Opus 4.5 | Claude Code CLI |
 | Gemini | 3.0 Pro | Antigravity IDE |
 | Gemini | 2.5 Pro | Gemini CLI |
-| GPT | 5.1 Codex Max | OpenAI API |
+| GPT | 5.1 Codex Max | Codex CLI |
 
 ### 공통 MCP 설정
 
@@ -694,6 +694,7 @@ v2 변경사항을 언급했으나, 문서 전반에 걸친 일관된 반영은 
 ## 참고 자료
 
 ### 관련 글
+- [AI 모델 백엔드 설계문서 비교](https://blog.imprun.dev/73) - 백엔드 설계문서 비교
 - [LinkedIn: 디자이너로써 바라본 Claude 4.5 Opus와 Gemini 3.0](https://www.linkedin.com/posts/uxjosh_%EB%94%94%EC%9E%90%EC%9D%B4%EB%84%88%EB%A1%9C%EC%8D%A8-%EB%B0%94%EB%9D%BC%EB%B3%B8-claude-45-opus%EC%99%80-gemini-30-%EB%94%94%EC%9E%90%EC%9D%B8-activity-7398935943891812352-vD59) - UX 디자이너 관점의 비교
 
 ### 공식 문서
