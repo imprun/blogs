@@ -6,7 +6,7 @@
 
 ## 요약
 
-Gemini 3.0, GPT-5.1 Codex Max, Claude Opus 4.5가 연이어 출시된 직후, 동일한 프롬프트로 프론트엔드 설계문서 작성 능력을 비교했습니다. 최근 LinkedIn에서 "디자인 영역에서 Gemini 3.0이 압승"이라는 평가가 화제였으나, 실무 개발자 관점에서 복잡한 B2B SaaS 프론트엔드 설계문서 작성 테스트를 진행한 결과, Claude Opus 4.5가 문서 구조, 기술적 깊이, 실무 적용 가능성에서 명확한 우위를 보였습니다.
+Gemini 3.0, GPT-5.1 Codex Max, Claude Opus 4.5가 연이어 출시된 직후, 동일한 프롬프트로 프론트엔드 설계문서 작성 능력을 비교했습니다. 동료가 공유한 LinkedIn 글에서 "디자인 영역에서 Gemini 3.0이 압승"이라는 평가를 보고 Gemini Ultra를 결제하여 직접 테스트해봤습니다. 실무 개발자 관점에서 복잡한 B2B SaaS 프론트엔드 설계문서 작성 테스트를 진행한 결과, Claude Opus 4.5가 문서 구조, 기술적 깊이, 실무 적용 가능성에서 명확한 우위를 보였습니다.
 
 ---
 
@@ -39,6 +39,14 @@ feature-sliced design + nextjs app router를 적용할 것이다.
 | Gemini | 3.0 Pro | Antigravity IDE |
 | Gemini | 2.5 Pro | Gemini CLI |
 | GPT | 5.1 Codex Max | OpenAI API |
+
+### 공통 MCP 설정
+
+모든 AI 에이전트는 동일한 MCP(Model Context Protocol) 서버가 활성화된 상태에서 테스트되었습니다:
+
+- **context7**: 컨텍스트 관리 및 문서 참조
+- **sequential-thinking**: 단계별 추론 강화
+- **serena**: 코드베이스 분석 및 이해
 
 ---
 
