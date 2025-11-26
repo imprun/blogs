@@ -581,7 +581,10 @@ func TestProductPublishAPI_CreateWithClusterID(t *testing.T) {
 
 3. **Gemini/GPT는 아키텍처 개요 수준**: Clean Architecture 구조나 레이어 분리는 설명했으나, 실제 구현에 필요한 코드 예시가 부족.
 
-4. **GPT-5.1의 관측성/운영 섹션**: 다른 모델이 다루지 않은 Metrics, Logging, Health Check를 언급한 점은 독특하나, 구현 코드 없이 항목 나열에 그침.
+4. **각 모델의 차별화된 강점** (Claude Opus 4.5 자체 비교 분석 결과):
+   - **GPT-5.1**: 운영 관점(관측성, 리스크 대응)에 강점. 다른 모델이 다루지 않은 Metrics, Logging, Health Check, 리스크 및 대응 섹션 포함.
+   - **Gemini 3.0 Pro**: 개발 도구(Swagger 문서화, DI 설정)에 집중. swaggo 주석 패턴, wire를 통한 의존성 주입 언급.
+   - **Gemini 2.5**: 단계별 실행 계획과 마이그레이션 가이드에 상세. Week 단위 Phase 구분, DB 백업 및 배포 순서 명시.
 
 ### 프론트엔드 vs 백엔드 비교
 
