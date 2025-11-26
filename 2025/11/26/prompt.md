@@ -1,0 +1,1 @@
+frontend 는 기존 v1 아키텍쳐 기준으로 개발이 되었는데, 새로운 아키텍쳐 architecture.md 와 prd.md 를 기준으로 v2 용 운영자용과 API 제공자용, API 소비자용 프론트엔드를 web 폴더에 구현하려고 한다. 구현계획을 frontend-plan-v2-xxx.md 로 작성해라. feature-sliced design + nextjs app router 를 적용할 것이다. 기획문서에는 컴포넌트 상세 명세, 상태관리 전략, API 연동 상세 시나리오, 사용자흐름 (User flow) 기반 기능 설명을 포함해. mermaid 시각화 적극 활용해라.
