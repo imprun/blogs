@@ -46,6 +46,28 @@
 - **sequential-thinking**: 단계별 추론 강화
 - **serena**: 코드베이스 분석 및 이해
 
+### 가격 정보 (2025년 11월 기준)
+
+이번 테스트는 모두 구독제로 진행했습니다.
+
+**구독제 가격**
+
+| 서비스 | 플랜 | 월 가격 | 사용량 한도 |
+|--------|------|---------|-------------|
+| Claude | Max | $200 | Pro 대비 5x~20x |
+| Gemini | Ultra | ₩60,000 (3개월 ₩180,000 프로모션) | 2.5 Pro 일 500회, 1M 토큰 컨텍스트 |
+| ChatGPT | Pro | $200 | 무제한 (공정 사용 정책 적용) |
+
+**API 직접 호출 가격 (참고)**
+
+| 모델 | Input (per 1M tokens) | Output (per 1M tokens) | 출처 |
+|------|----------------------|------------------------|------|
+| Claude Opus 4.5 | $5.00 | $25.00 | [Anthropic Docs](https://platform.claude.com/docs/en/about-claude/models) |
+| Gemini 3.0 Pro | $2.00 | $12.00 | [Google AI Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+| Gemini 2.5 Pro | $1.25 | $10.00 | [Google AI Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+
+Gemini API는 200K 토큰 초과 시 2배 요금이 적용됩니다.
+
 ---
 
 ## 정량적 비교

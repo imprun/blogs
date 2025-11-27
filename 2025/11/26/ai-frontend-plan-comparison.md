@@ -8,6 +8,9 @@
 
 Gemini 3.0, GPT-5.1 Codex Max, Claude Opus 4.5가 연이어 출시된 직후, 동일한 프롬프트로 프론트엔드 설계문서 작성 능력을 비교했습니다. 동료가 공유한 LinkedIn 글에서 "디자인 영역에서 Gemini 3.0이 압승"이라는 평가를 보고 Gemini Ultra를 결제하여 직접 테스트해봤습니다. 실무 개발자 관점에서 복잡한 B2B SaaS 프론트엔드 설계문서 작성 테스트를 진행한 결과, Claude Opus 4.5가 문서 구조, 기술적 깊이, 실무 적용 가능성에서 명확한 우위를 보였습니다.
 
+![Claude Opus 4.5 Benchmark Comparison](https://www-cdn.anthropic.com/images/4zrzovbb/website/52303b11db76017fd0c2f73c7fafa5c752515979-2600x2236.png)
+*출처: [Anthropic - Introducing Claude Opus 4.5](https://www.anthropic.com/news/claude-opus-4-5)*
+
 ---
 
 ## 테스트 환경
@@ -47,6 +50,28 @@ feature-sliced design + nextjs app router를 적용할 것이다.
 - **context7**: 컨텍스트 관리 및 문서 참조
 - **sequential-thinking**: 단계별 추론 강화
 - **serena**: 코드베이스 분석 및 이해
+
+### 가격 정보 (2025년 11월 기준)
+
+이번 테스트는 모두 구독제로 진행했습니다.
+
+**구독제 가격**
+
+| 서비스 | 플랜 | 월 가격 | 사용량 한도 |
+|--------|------|---------|-------------|
+| Claude | Max | $200 | Pro 대비 5x~20x |
+| Gemini | Ultra | ₩60,000 (3개월 ₩180,000 프로모션) | 2.5 Pro 일 500회, 1M 토큰 컨텍스트 |
+| ChatGPT | Pro | $200 | 무제한 (공정 사용 정책 적용) |
+
+**API 직접 호출 가격 (참고)**
+
+| 모델 | Input (per 1M tokens) | Output (per 1M tokens) | 출처 |
+|------|----------------------|------------------------|------|
+| Claude Opus 4.5 | $5.00 | $25.00 | [Anthropic Docs](https://platform.claude.com/docs/en/about-claude/models) |
+| Gemini 3.0 Pro | $2.00 | $12.00 | [Google AI Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+| Gemini 2.5 Pro | $1.25 | $10.00 | [Google AI Pricing](https://ai.google.dev/gemini-api/docs/pricing) |
+
+Gemini API는 200K 토큰 초과 시 2배 요금이 적용됩니다.
 
 ---
 
@@ -682,25 +707,37 @@ v2 변경사항을 언급했으나, 문서 전반에 걸친 일관된 반영은 
 
 위 비교에서 보듯 각 모델은 서로 다른 강점을 가지고 있습니다. Claude가 압도적인 문서 생성 능력을 보여주지만, 실무에서는 여러 에이전트를 조합하여 더 완성도 높은 결과물을 만들 수 있습니다.
 
-특히 Codex는 Claude가 작성한 코드나 아키텍처 문서를 리뷰할 때 Claude가 놓칠 수 있는 관점을 짚어주는 경우가 많습니다. 단독 문서 생성에서는 Claude에 못 미치지만, 리뷰어 역할에서는 상호보완 효과가 있습니다.
-
 ```mermaid
 flowchart TD
     A[동일 프롬프트로 여러 에이전트 실행] --> B[각 모델별 설계문서 생성]
     B --> C[가장 완성도 높은 문서를 베이스로 선정]
-    C --> D[베이스 모델이 다른 결과물 비교 분석]
-    D --> E[누락된 관점 식별 및 머지]
-    E --> F[오버엔지니어링 제거 및 비판적 리뷰]
-    F --> G[AI 최종본 완성]
-    G --> H[사람이 시간을 두고 리뷰]
-    H --> I[개발 시작]
+    C --> D[다른 에이전트들에게 베이스 문서 비판적 리뷰 요청]
+    D --> E[개선 사항 및 누락 사항 식별]
+    E --> F[베이스 모델이 피드백 통합 및 머지]
+    F --> G[오버엔지니어링 제거 및 최종 비판적 리뷰]
+    G --> H[AI 초안 완성]
+    H --> I[사람이 시간을 두고 본격 리뷰]
+    I --> J[개발 시작]
 
     style C stroke:#2563eb,stroke-width:2px
-    style F stroke:#ea580c,stroke-width:2px
-    style H stroke:#16a34a,stroke-width:2px
+    style D stroke:#ea580c,stroke-width:2px
+    style G stroke:#ea580c,stroke-width:2px
+    style I stroke:#16a34a,stroke-width:2px
 ```
 
-이 워크플로우의 핵심은 AI가 생성한 문서를 바로 사용하지 않고, 여러 관점을 통합한 뒤 사람이 최종 판단한다는 점입니다.
+**워크플로우 상세**:
+
+1. **베이스 문서 선정**: 동일 프롬프트로 여러 모델을 실행하고, 가장 완성도 높은 결과물을 베이스로 선정합니다. 이번 테스트에서는 Claude Opus 4.5가 베이스가 됩니다.
+
+2. **멀티 에이전트 비판적 리뷰**: 베이스 문서를 다른 에이전트(Codex, Gemini 등)에게 전달하여 비판적으로 리뷰하게 합니다. 각 모델이 자신의 관점에서 개선 사항과 누락된 부분을 지적합니다.
+
+3. **피드백 통합**: 베이스 모델이 다른 에이전트들의 피드백을 검토하고, 유효한 개선 사항을 문서에 반영합니다.
+
+4. **오버엔지니어링 제거**: 마지막으로 과도한 복잡성이나 불필요한 추상화를 제거하고, 실현 가능한 수준으로 정제합니다.
+
+5. **사람 리뷰**: AI 초안이 완성되면 사람이 충분한 시간을 가지고 검토합니다. 이 단계에서 비즈니스 맥락, 팀 역량, 일정 등 AI가 알 수 없는 요소들을 반영합니다.
+
+Codex는 단독 문서 생성에서는 Claude에 못 미치지만, 리뷰어 역할에서는 Claude가 놓칠 수 있는 운영 관점이나 엔터프라이즈 패턴을 짚어주는 경우가 많습니다. 이런 상호보완 효과가 멀티 에이전트 워크플로우의 핵심입니다.
 
 ---
 
