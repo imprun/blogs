@@ -8,6 +8,7 @@
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/74 | [Go 개발 생산성 향상을 위한 Air Live Reload 도입 가이드](2025/12/06/golang-air-live-reload-development-guide.md) |
 | https://blog.imprun.dev/73 | [Claude Opus 4.5 vs Gemini 3.0 Pro vs Gemini 2.5 vs GPT-5.1: 백엔드 설계문서 비교](2025/11/26/ai-backend-plan-comparison.md) |
 | https://blog.imprun.dev/72 | [Claude Opus 4.5 vs Gemini 3.0 Pro vs Gemini 2.5 Pro vs GPT-5.1 Codex Max: 프론트엔드 설계문서 비교](2025/11/26/ai-frontend-plan-comparison.md) |
 | https://blog.imprun.dev/71 | [Claude Code 실무 개발 워크플로우: EPIC부터 일일 개발, 주간보고까지](2025/11/25/claude-code-power-user-workflow.md) |
