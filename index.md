@@ -8,6 +8,7 @@
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/75 | [Gemini 3.0 Pro + Antigravity 실사용 후기: Claude Code 사용자의 답답한 경험](2025/12/06/gemini-3-pro-antigravity-review.md) |
 | https://blog.imprun.dev/74 | [Go 개발 생산성 향상을 위한 Air Live Reload 도입 가이드](2025/12/06/golang-air-live-reload-development-guide.md) |
 | https://blog.imprun.dev/73 | [Claude Opus 4.5 vs Gemini 3.0 Pro vs Gemini 2.5 vs GPT-5.1: 백엔드 설계문서 비교](2025/11/26/ai-backend-plan-comparison.md) |
 | https://blog.imprun.dev/72 | [Claude Opus 4.5 vs Gemini 3.0 Pro vs Gemini 2.5 Pro vs GPT-5.1 Codex Max: 프론트엔드 설계문서 비교](2025/11/26/ai-frontend-plan-comparison.md) |
