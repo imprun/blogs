@@ -53,17 +53,30 @@ Ory Keto 권한 시스템에서 403 Forbidden 에러가 발생했습니다. 원�
 
 Keto 컨테이너가 설정 로드 실패로 에러를 출력하고 있었습니다. 로그를 한 번만 확인했다면 바로 Syntax Error임을 알 수 있었습니다. 그러나 Gemini는 로그 확인 없이 "일단 실행"을 반복하며 5~6턴을 낭비했습니다.
 
+### Gemini의 "해결"
+
+여러 차례 실패 후, Gemini는 `namespaces.keto.ts`의 설정을 전부 삭제해버렸습니다. 그리고 "해결되었습니다"라고 보고했습니다. 
+
 ### 실제 Claude Code의 대응
 
-동일한 Keto 문제를 Claude Code에 넘겼을 때, 한 번에 원인을 파악하고 해결했습니다:
+동일한 Keto 문제를 Claude Code에 넘겼을 때, 단일 세션에서 체계적으로 원인을 파악하고 해결했습니다:
 
-1. Keto Read/Write API health 체크
-2. `keto.yml` 설정 파일 확인
-3. 네임스페이스 목록 조회 (`User`, `Organization`만 로드됨 확인)
-4. relation_tuples가 비어있음 발견 → "조직 생성 시 권한이 저장되지 않았음" 원인 파악
-5. 백엔드에서 Keto에 권한을 쓰는 부분 테스트 및 수정
+1. Keto 로그 확인 → namespace 로드 실패 확인
+2. Keto 설정 파일과 마운트된 볼륨 확인
+3. 컨테이너 내부에서 `/etc/config/keto/` 경로 확인
+4. `keto.yml` 내용 검증
+5. **OPL 파싱 에러 발견**: `error from 182:26 to 182:34: expected "includes", got "traverse"`
+6. Keto v25.4.0에서 `traverse` 문법이 지원되지 않음을 파악
+7. `namespaces.keto.ts` 파일에서 `traverse`를 `includes` 기반으로 단순화
+8. Keto 재시작 후 namespace 정상 로드 확인
+9. relation_tuples 조회 및 권한 체크 동작 검증
 
-Gemini가 5~6턴 동안 curl만 반복할 때, Claude Code는 체계적으로 문제를 추적하여 단일 세션에서 해결했습니다.
+```
+# Claude Code가 발견한 OPL 파싱 에러
+error from 182:26 to 182:34: expected "includes", got "traverse"
+```
+
+Gemini가 5~6턴 동안 curl만 반복하며 "왜 안 되지?"를 되뇌일 때, Claude Code는 로그에서 정확한 에러 메시지를 찾아 근본 원인을 해결했습니다.
 
 ---
 
