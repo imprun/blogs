@@ -33,6 +33,17 @@ imprun-blogs/
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/96 | [GORM 실무 트러블슈팅: 운영 환경에서 만난 함정들](2025/12/22/gorm-edge-cases-troubleshooting.md) |
+| https://blog.imprun.dev/95 | [GORM 기반 엔터프라이즈 Go API Server 아키텍처](2025/12/22/gorm-enterprise-go-api-architecture.md) |
+| https://blog.imprun.dev/94 | [GORM 소개: Go 개발자를 위한 ORM 완벽 가이드](2025/12/22/gorm-introduction-go-orm.md) |
+| https://blog.imprun.dev/93 | [Claude Code로 세련된 UI 만들기](TODO) |
+| https://blog.imprun.dev/92 | [Ory Kratos 로그인 플로우 Deep Dive](TODO) |
+| https://blog.imprun.dev/91 | [Ory 스택 완전 가이드: 오픈소스 인증/인가 시스템](TODO) |
+| https://blog.imprun.dev/90 | [Kubernetes Gateway API 설계 철학: Ingress를 넘어서](TODO) |
+| https://blog.imprun.dev/89 | [Kubernetes Operator 패턴과 Reconciliation: 선언적 인프라의 핵심](TODO) |
+| https://blog.imprun.dev/88 | [gRPC 완전 가이드: REST와의 비교부터 실전 활용까지](TODO) |
+| https://blog.imprun.dev/87 | [API Gateway 입문 가이드: 마이크로서비스의 관문](TODO) |
+| https://blog.imprun.dev/86 | [Airflow vs Prefect vs Dagster vs Temporal: 빌링 SaaS를 위한 워크플로우 오케스트레이션 비교](TODO) |
 | https://blog.imprun.dev/85 | [Google Stitch: 피그마를 몰라도 AI로 UI 디자인하기](2025/12/11/google-stitch-ai-ui-design-tool-guide.md) |
 | https://blog.imprun.dev/84 | [Claude Code Slack 연동: 팀 대화에서 바로 코딩 작업 위임하기](2025/12/11/claude-code-slack-integration-guide.md) |
 | https://blog.imprun.dev/83 | [Claude Code 베스트 프랙티스: Anthropic 공식 가이드 정리](2025/12/11/claude-code-best-practices-official.md) |
