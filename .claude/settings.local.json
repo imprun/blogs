@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx ccusage@latest daily --since 20251101 --until 20251211 --no-color)"
+      "Bash(npx ccusage@latest daily --since 20251101 --until 20251211 --no-color)",
+      "Bash(mkdir:*)"
     ]
   }
 }

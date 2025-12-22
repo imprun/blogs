@@ -1,4 +1,4 @@
-# HTTP Cookie Deep Dive: 25년 경력 개발자의 관점에서 본 웹 상태 관리의 핵심
+# HTTP Cookie Deep Dive: 웹 상태 관리의 핵심
 
 > **작성일**: 2025년 12월 22일
 > **카테고리**: Web, HTTP, Security
@@ -288,135 +288,392 @@ Set-Cookie: csrf_token=<random-value>;
             # HttpOnly 없음 - JavaScript에서 읽어서 헤더에 포함해야 함
 ```
 
-## Cookie vs 대안 기술 비교
+## Cookie Prefixes: 추가 보안 계층
 
-| 특성 | Cookie | localStorage | sessionStorage | IndexedDB |
-|------|--------|--------------|----------------|-----------|
-| 용량 | ~4KB | ~5MB | ~5MB | 무제한 |
-| 서버 전송 | 자동 | 수동 | 수동 | 수동 |
-| 만료 | 설정 가능 | 없음 | 탭 종료 시 | 없음 |
-| 접근 범위 | 서버 + 클라이언트 | 클라이언트만 | 클라이언트만 | 클라이언트만 |
-| HTTP 요청 크기 영향 | 있음 | 없음 | 없음 | 없음 |
+RFC 6265bis에서 도입된 Cookie Prefix는 Cookie 이름에 특수 접두사를 붙여 브라우저가 추가 보안 검증을 수행하도록 강제한다.
 
-**선택 기준:**
-- 서버 인증이 필요하면 Cookie
-- 클라이언트만 사용하는 설정은 localStorage
-- 대용량 구조화 데이터는 IndexedDB
+### __Secure- Prefix
 
-## 실무 구현 예시
+```http
+Set-Cookie: __Secure-session=abc123; Secure; Path=/
+```
 
-### Go (net/http)
+**브라우저 검증 조건:**
+- `Secure` 속성 필수
+- HTTPS 연결에서만 설정 가능
+
+HTTP 연결이나 Secure 속성 없이 설정하려 하면 브라우저가 거부한다.
+
+### __Host- Prefix
+
+```http
+Set-Cookie: __Host-session=abc123; Secure; Path=/
+```
+
+**브라우저 검증 조건:**
+- `Secure` 속성 필수
+- `Path=/` 필수 (루트 경로)
+- `Domain` 속성 없어야 함 (정확한 호스트 매칭)
+
+```http
+# 거부됨 - Domain 속성 존재
+Set-Cookie: __Host-session=abc; Secure; Path=/; Domain=example.com
+
+# 거부됨 - Path가 루트가 아님
+Set-Cookie: __Host-session=abc; Secure; Path=/api
+
+# 허용됨
+Set-Cookie: __Host-session=abc; Secure; Path=/
+```
+
+`__Host-` Prefix는 서브도메인 탈취 공격을 방어한다. 공격자가 `evil.example.com`을 통해 `example.com`의 Cookie를 덮어쓰는 시나리오를 원천 차단한다.
+
+### 실무 적용 패턴
 
 ```go
-func SetSessionCookie(w http.ResponseWriter, sessionID string) {
+// 최고 수준의 세션 보안이 필요한 경우
+func SetSecureSessionCookie(w http.ResponseWriter, token string) {
     cookie := &http.Cookie{
-        Name:     "session_id",
-        Value:    sessionID,
+        Name:     "__Host-session",
+        Value:    token,
         Path:     "/",
-        HttpOnly: true,
         Secure:   true,
-        SameSite: http.SameSiteLaxMode,
-        MaxAge:   3600,
+        HttpOnly: true,
+        SameSite: http.SameSiteStrictMode,
     }
     http.SetCookie(w, cookie)
 }
+```
 
-func GetSessionCookie(r *http.Request) (string, error) {
-    cookie, err := r.Cookie("session_id")
-    if err != nil {
-        return "", err
+## CHIPS: Partitioned Cookies
+
+Cookies Having Independent Partitioned State(CHIPS)는 서드파티 Cookie 차단 정책에 대한 대응책으로 2023년에 도입되었다.
+
+### 문제 상황
+
+서드파티 Cookie 차단으로 다음 시나리오가 불가능해졌다:
+
+```
+사이트 A (first-party) → 임베드된 서비스 B (third-party)
+사이트 C (first-party) → 임베드된 서비스 B (third-party)
+
+서비스 B가 Cookie를 설정하면:
+- 기존: A와 C 모두에서 동일한 Cookie 공유 (크로스 사이트 트래킹 가능)
+- 차단 후: Cookie 설정 자체가 불가능
+```
+
+### CHIPS 해결책
+
+```http
+Set-Cookie: __Host-session=abc123; Secure; Path=/; Partitioned
+```
+
+`Partitioned` 속성은 Cookie를 설정한 top-level 사이트별로 Cookie를 분리 저장한다:
+
+```
+사이트 A에서 서비스 B 접근 → Cookie: (A, B) 파티션에 저장
+사이트 C에서 서비스 B 접근 → Cookie: (C, B) 파티션에 저장
+
+(A, B) 파티션의 Cookie는 (C, B)에서 접근 불가
+```
+
+### 사용 사례
+
+**결제 위젯:**
+```http
+# payment.example.com이 merchant-a.com에 임베드될 때
+Set-Cookie: __Host-payment_session=xyz; Secure; Path=/; Partitioned; SameSite=None
+```
+
+**채팅 위젯:**
+```http
+# chat.service.com이 여러 고객사 사이트에 임베드될 때
+Set-Cookie: __Host-chat_token=abc; Secure; Path=/; Partitioned; SameSite=None
+```
+
+### 제약 사항
+
+- `Partitioned`는 반드시 `Secure`, `Path=/`와 함께 사용
+- `__Host-` Prefix 권장
+- 기존 서드파티 Cookie와 달리 크로스 사이트 상태 공유 불가
+
+## Cookie와 브라우저 저장소의 격리 모델
+
+### Same-Origin Policy vs Cookie의 Origin 개념
+
+JavaScript의 Same-Origin Policy와 Cookie의 Origin 개념은 다르다:
+
+**Same-Origin Policy (JavaScript):**
+```
+https://sub.example.com:443 ≠ https://example.com:443
+(서브도메인이 달라도 다른 Origin)
+```
+
+**Cookie Origin:**
+```
+Domain=example.com 설정 시:
+https://sub.example.com → Cookie 전송됨
+https://other.example.com → Cookie 전송됨
+(서브도메인 전체에서 Cookie 공유)
+```
+
+이 차이로 인해 발생하는 보안 문제:
+
+```mermaid
+sequenceDiagram
+    participant Attacker as evil.example.com
+    participant Victim as app.example.com
+    participant Browser
+
+    Note over Attacker: 공격자가 서브도메인 하나를 탈취
+
+    Attacker->>Browser: Set-Cookie 응답 (session=malicious)
+    Note over Browser: Cookie가 example.com 전체에 적용
+
+    Browser->>Victim: GET /api 요청 (탈취된 Cookie 포함)
+    Note over Victim: 공격자가 설정한 세션으로 요청됨
+```
+
+**방어:**
+- `__Host-` Prefix 사용 (Domain 속성 금지)
+- 민감한 Cookie는 Domain 속성 미설정
+
+### Public Suffix List
+
+브라우저는 Public Suffix List(PSL)를 사용하여 Cookie 설정 범위를 제한한다:
+
+```http
+# 거부됨 - .com은 public suffix
+Set-Cookie: tracking=123; Domain=.com
+
+# 거부됨 - .co.uk은 public suffix
+Set-Cookie: tracking=123; Domain=.co.uk
+
+# 허용됨 - example.com은 registerable domain
+Set-Cookie: tracking=123; Domain=example.com
+```
+
+**주의할 점:**
+`github.io`, `herokuapp.com` 등 PaaS 도메인도 PSL에 포함되어 있어, 해당 플랫폼에서 호스팅하는 사이트 간 Cookie 공유가 불가능하다.
+
+## Session Fixation과 Cookie 재생성
+
+### Session Fixation 공격
+
+```mermaid
+sequenceDiagram
+    participant Attacker
+    participant Victim
+    participant Server
+
+    Attacker->>Server: 세션 생성 요청
+    Server-->>Attacker: Set-Cookie 응답 (session_id=KNOWN_VALUE)
+
+    Attacker->>Victim: 피싱 링크 전달 (KNOWN_VALUE 세션 포함)
+    Victim->>Server: 로그인 요청 (KNOWN_VALUE 세션 사용)
+    Server->>Server: 기존 세션에 인증 정보 연결
+
+    Note over Attacker: 공격자가 KNOWN_VALUE로 접근 시 피해자로 인증됨
+```
+
+### 방어: 인증 시 세션 재생성
+
+```go
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+    // 1. 기존 세션 무효화
+    oldSessionID, _ := r.Cookie("session_id")
+    if oldSessionID != nil {
+        sessionStore.Delete(oldSessionID.Value)
     }
-    return cookie.Value, nil
+
+    // 2. 인증 수행
+    user, err := authenticate(r)
+    if err != nil {
+        http.Error(w, "Unauthorized", 401)
+        return
+    }
+
+    // 3. 새 세션 생성 (핵심)
+    newSessionID := generateCryptographicallySecureID()
+    sessionStore.Set(newSessionID, user)
+
+    // 4. 새 Cookie 설정
+    http.SetCookie(w, &http.Cookie{
+        Name:     "__Host-session",
+        Value:    newSessionID,
+        Path:     "/",
+        Secure:   true,
+        HttpOnly: true,
+        SameSite: http.SameSiteStrictMode,
+    })
 }
 ```
 
-### Node.js (Express)
+## Cookie Replay Attack 방어
 
+### 문제
+
+Cookie가 탈취되면 공격자가 해당 Cookie로 무한정 요청을 재생(replay)할 수 있다.
+
+### 방어 전략 1: 짧은 TTL + Refresh Token
+
+```go
+type SessionTokens struct {
+    AccessToken  string    // 짧은 수명 (15분)
+    RefreshToken string    // 긴 수명 (7일), 1회용
+}
+
+func SetTokenCookies(w http.ResponseWriter, tokens SessionTokens) {
+    // Access Token - 짧은 수명
+    http.SetCookie(w, &http.Cookie{
+        Name:     "__Host-access",
+        Value:    tokens.AccessToken,
+        Path:     "/",
+        MaxAge:   900, // 15분
+        Secure:   true,
+        HttpOnly: true,
+        SameSite: http.SameSiteStrictMode,
+    })
+
+    // Refresh Token - 긴 수명, /auth/refresh에서만 전송
+    http.SetCookie(w, &http.Cookie{
+        Name:     "__Host-refresh",
+        Value:    tokens.RefreshToken,
+        Path:     "/auth/refresh",
+        MaxAge:   604800, // 7일
+        Secure:   true,
+        HttpOnly: true,
+        SameSite: http.SameSiteStrictMode,
+    })
+}
+```
+
+### 방어 전략 2: Token Binding
+
+세션을 클라이언트 특성에 바인딩:
+
+```go
+type BoundSession struct {
+    UserID      string
+    Fingerprint string // User-Agent + Accept-Language + 기타 헤더 해시
+    CreatedAt   time.Time
+    LastIP      string
+}
+
+func ValidateSession(r *http.Request, session BoundSession) error {
+    currentFingerprint := computeFingerprint(r)
+
+    if session.Fingerprint != currentFingerprint {
+        // 다른 환경에서의 접근 - 재인증 요구
+        return ErrSessionEnvironmentMismatch
+    }
+
+    // IP가 급격히 변경된 경우 (선택적)
+    if session.LastIP != getClientIP(r) {
+        log.Warn("IP changed for session", session.UserID)
+        // 민감한 작업 시 추가 인증 요구
+    }
+
+    return nil
+}
+```
+
+## 분산 환경에서의 Session Cookie
+
+### Sticky Session의 한계
+
+로드 밸런서가 특정 클라이언트를 항상 같은 서버로 라우팅하는 방식:
+
+```
+Client A → (Cookie: server=node1) → Load Balancer → Node 1
+Client B → (Cookie: server=node2) → Load Balancer → Node 2
+```
+
+**문제점:**
+- 서버 다운 시 세션 손실
+- 불균형한 부하 분산
+- 스케일 다운 시 세션 마이그레이션 복잡
+
+### Stateless Session: JWT in Cookie
+
+```http
+Set-Cookie: __Host-token=eyJhbGciOiJIUzI1NiIs...; Secure; HttpOnly; Path=/
+```
+
+**장점:**
+- 서버 측 세션 저장소 불필요
+- 수평 확장 용이
+
+**단점:**
+- 토큰 크기가 커서 매 요청마다 오버헤드
+- 즉시 무효화 불가능 (만료 시간까지 유효)
+
+### Hybrid: Cookie + Centralized Session Store
+
+```go
+// Redis를 이용한 분산 세션
+func GetSession(sessionID string) (*Session, error) {
+    data, err := redis.Get(ctx, "session:"+sessionID).Bytes()
+    if err == redis.Nil {
+        return nil, ErrSessionNotFound
+    }
+    if err != nil {
+        return nil, err
+    }
+
+    var session Session
+    json.Unmarshal(data, &session)
+    return &session, nil
+}
+
+func SetSession(session *Session) error {
+    data, _ := json.Marshal(session)
+    return redis.Set(ctx,
+        "session:"+session.ID,
+        data,
+        time.Hour, // TTL
+    ).Err()
+}
+```
+
+**설계 고려사항:**
+- Redis Cluster 또는 Sentinel로 고가용성 확보
+- 세션 데이터는 최소화 (사용자 ID + 권한 정도만)
+- 민감한 데이터는 세션에 저장하지 않음
+
+## 브라우저별 Cookie 정책 차이
+
+### Safari의 ITP (Intelligent Tracking Prevention)
+
+Safari는 가장 공격적인 Cookie 정책을 적용한다:
+
+| 시나리오 | Safari 동작 |
+|---------|------------|
+| 서드파티 Cookie | 완전 차단 |
+| 퍼스트파티 Cookie (JS 설정) | 7일 후 만료 |
+| 퍼스트파티 Cookie (서버 설정) | 설정된 만료일 유지 |
+| Cross-Site 트래커로 분류된 도메인 | 24시간 후 Cookie 삭제 |
+
+**실무 영향:**
 ```javascript
-const express = require('express');
-const cookieParser = require('cookie-parser');
-
-const app = express();
-app.use(cookieParser());
-
-app.post('/login', (req, res) => {
-  const sessionId = generateSecureSessionId();
-
-  res.cookie('session_id', sessionId, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 3600 * 1000, // milliseconds
-    path: '/'
-  });
-
-  res.json({ success: true });
-});
-
-app.get('/logout', (req, res) => {
-  res.clearCookie('session_id', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/'
-  });
-
-  res.redirect('/');
-});
+// Safari에서 7일 후 사라짐
+document.cookie = "preference=dark; max-age=31536000";
 ```
 
-### Python (Flask)
-
-```python
-from flask import Flask, make_response, request
-
-app = Flask(__name__)
-
-@app.route('/login', methods=['POST'])
-def login():
-    session_id = generate_secure_session_id()
-
-    response = make_response({'success': True})
-    response.set_cookie(
-        'session_id',
-        session_id,
-        httponly=True,
-        secure=True,
-        samesite='Lax',
-        max_age=3600,
-        path='/'
-    )
-
-    return response
+```http
+# Safari에서 정상 동작
+Set-Cookie: preference=dark; Max-Age=31536000; Secure
 ```
 
-## Cookie 디버깅
+클라이언트 측에서 장기 설정을 저장해야 할 경우, `document.cookie` 대신 서버 응답의 `Set-Cookie`를 사용하거나 localStorage를 고려해야 한다.
 
-### 브라우저 DevTools
+### Firefox의 Total Cookie Protection
 
-Chrome DevTools > Application > Cookies에서 확인 가능한 정보:
-- Name, Value
-- Domain, Path
-- Expires/Max-Age
-- Size
-- HttpOnly, Secure, SameSite
-- Priority
-- Partition Key (CHIPS)
+Firefox는 서드파티 Cookie를 "파티셔닝"하여 CHIPS와 유사하게 동작한다. 명시적인 `Partitioned` 속성 없이도 자동 적용된다.
 
-### curl을 이용한 테스트
+### Chrome의 Privacy Sandbox 로드맵
 
-```bash
-# Cookie 저장하면서 요청
-curl -c cookies.txt -b cookies.txt \
-  -X POST https://example.com/login \
-  -d "username=test&password=test"
-
-# 저장된 Cookie로 요청
-curl -b cookies.txt https://example.com/dashboard
-
-# Set-Cookie 헤더 확인
-curl -I https://example.com/login
-```
+Chrome은 서드파티 Cookie를 2025년까지 단계적으로 폐지할 예정이었으나, 2024년 7월 계획을 철회했다. 대신 사용자 선택권을 강화하는 방향으로 선회했다.
 
 ## 교훈
 
