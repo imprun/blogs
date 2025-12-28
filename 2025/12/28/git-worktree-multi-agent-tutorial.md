@@ -67,23 +67,32 @@ my-project-feature-b/    ← VSCode 창 3: dashboard 작업
 my-project-feature-c/    ← VSCode 창 4: payment 작업
 ```
 
-### Step 4: 각 VSCode에서 Claude Code 실행
+### Step 4: 각 VSCode에서 Claude Code 실행 및 온보딩
+
+각 VSCode 창에서 Claude Code를 실행하고, `/catchup`으로 프로젝트 컨텍스트를 파악시킨 후 작업을 시작한다.
 
 **VSCode 창 2 (feature-a)**
 ```bash
 $ claude
+> /catchup
+# Claude가 프로젝트 구조 파악
+
 > 사용자 인증 기능을 구현해줘.
 ```
 
 **VSCode 창 3 (feature-b)** - 동시에
 ```bash
 $ claude
+> /catchup
+
 > 대시보드 UI를 구현해줘.
 ```
 
 **VSCode 창 4 (feature-c)** - 동시에
 ```bash
 $ claude
+> /catchup
+
 > 결제 페이지를 구현해줘.
 ```
 
