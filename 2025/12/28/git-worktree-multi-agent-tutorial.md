@@ -31,13 +31,13 @@ git worktree를 도입한 후, 상황이 바뀌었다. main 브랜치로 전체 
 메인 프로젝트의 VSCode에서 Claude Code에게 명시적으로 요청한다.
 
 ```
-> 멀티 에이전트로 개발할 것이기 때문에 worktree 먼저 생성해
+> issue-33 사용자 인증 기능 개발용으로 worktree 생성해줘
 ```
 
 Claude Code가 worktree를 생성한다:
 
 ```bash
-$ git worktree add ../my-project-feature-a -b feature/issue-33 main
+$ git worktree add ../my-project-issue-33 -b feature/issue-33 main
 ```
 
 ### Step 2: 해당 Worktree에 VSCode 열기
@@ -51,7 +51,7 @@ worktree 생성이 완료되면, VSCode를 열어달라고 요청한다.
 Claude Code가 새 VSCode 창을 연다:
 
 ```bash
-$ code "../my-project-feature-a"
+$ code "../my-project-issue-33"
 ```
 
 새 VSCode 창이 열리면 해당 worktree에서 작업을 시작할 수 있다.
@@ -62,16 +62,16 @@ Step 1-2를 반복해서 기능별 worktree를 생성하고, 각각 새 VSCode �
 
 ```
 my-project/              ← VSCode 창 1: main (원래 창, 모니터링용)
-my-project-feature-a/    ← VSCode 창 2: issue-33 작업
-my-project-feature-b/    ← VSCode 창 3: dashboard 작업
-my-project-feature-c/    ← VSCode 창 4: payment 작업
+my-project-issue-33/     ← VSCode 창 2: 사용자 인증 작업
+my-project-issue-45/     ← VSCode 창 3: 대시보드 작업
+my-project-issue-52/     ← VSCode 창 4: 결제 작업
 ```
 
 ### Step 4: 각 VSCode에서 Claude Code 실행 및 온보딩
 
 각 VSCode 창에서 Claude Code를 실행하고, `/catchup`으로 프로젝트 컨텍스트를 파악시킨 후 작업을 시작한다.
 
-**VSCode 창 2 (feature-a)**
+**VSCode 창 2 (issue-33)**
 ```bash
 $ claude
 > /catchup
@@ -80,7 +80,7 @@ $ claude
 > 사용자 인증 기능을 구현해줘.
 ```
 
-**VSCode 창 3 (feature-b)** - 동시에
+**VSCode 창 3 (issue-45)** - 동시에
 ```bash
 $ claude
 > /catchup
@@ -88,7 +88,7 @@ $ claude
 > 대시보드 UI를 구현해줘.
 ```
 
-**VSCode 창 4 (feature-c)** - 동시에
+**VSCode 창 4 (issue-52)** - 동시에
 ```bash
 $ claude
 > /catchup
@@ -101,37 +101,52 @@ $ claude
 - 같은 파일 수정 충돌 없음
 - 각자 커밋 가능
 
-### Step 5: Main VSCode에서 전체 상태 모니터링
+### Step 5: Main VSCode는 오케스트레이션만 담당
 
-main 브랜치의 VSCode에서 Source Control 패널을 열면 모든 worktree가 표시된다.
+main VSCode의 Claude Code는 직접 개발하지 않는다. 역할은 다음과 같다:
+- 각 worktree 생성 및 VSCode 창 열기
+- 전체 진행 상황 모니터링
+- 작업 완료된 브랜치 병합
+- worktree 정리
+
+Source Control 패널을 열면 모든 worktree가 표시된다.
 
 ```
 SOURCE CONTROL
 ├── my-project (main)
-├── my-project-feature-a (feature/issue-33)
-├── my-project-feature-b (feature/dashboard)
-└── my-project-feature-c (feature/payment)
+├── my-project-issue-33 (feature/issue-33)
+├── my-project-issue-45 (feature/issue-45)
+└── my-project-issue-52 (feature/issue-52)
 ```
 
 각 worktree의 변경사항을 한 화면에서 확인할 수 있다.
 
 ### Step 6: 작업 완료 후 병합
 
-각 에이전트가 작업을 완료하면 main에서 병합한다.
+각 에이전트가 작업을 완료하면 main VSCode의 Claude Code에게 병합을 요청한다.
+
+```
+> issue-33 작업 완료됐어. main에 병합해줘.
+```
+
+Claude Code가 병합을 수행한다:
 
 ```bash
-# main VSCode에서
 $ git merge feature/issue-33
-$ git merge feature/dashboard
-$ git merge feature/payment
 ```
 
 ### Step 7: Worktree 정리
 
 병합이 완료된 worktree는 삭제한다.
 
+```
+> issue-33 worktree 정리해줘
+```
+
+Claude Code가 worktree와 브랜치를 정리한다:
+
 ```bash
-$ git worktree remove ../my-project-feature-a
+$ git worktree remove ../my-project-issue-33
 $ git branch -d feature/issue-33
 ```
 
@@ -209,18 +224,18 @@ graph TB
     end
 
     subgraph WT1["VSCode 1: my-project/ (main)"]
-        DEV["모니터링 + 병합"]
+        DEV["오케스트레이션"]
     end
 
-    subgraph WT2["VSCode 2: feature-a/"]
+    subgraph WT2["VSCode 2: issue-33/"]
         CLAUDE_A["Claude A"]
     end
 
-    subgraph WT3["VSCode 3: feature-b/"]
+    subgraph WT3["VSCode 3: issue-45/"]
         CLAUDE_B["Claude B"]
     end
 
-    subgraph WT4["VSCode 4: feature-c/"]
+    subgraph WT4["VSCode 4: issue-52/"]
         CLAUDE_C["Claude C"]
     end
 
@@ -240,8 +255,8 @@ graph TB
 
 git worktree를 활용하면 여러 Claude Code 인스턴스를 충돌 없이 동시에 운영할 수 있다. 핵심은 **기능별로 worktree를 생성하고, 각 worktree를 별도의 VSCode 창에서 여는 것**이다.
 
-- main VSCode: 전체 상태 모니터링 + 병합
-- 기능별 VSCode: 각각 Claude Code 실행
+- main VSCode: 오케스트레이션 (worktree 생성, 병합, 정리)
+- 기능별 VSCode: 실제 개발 작업
 
 이 구조로 멀티에이전트 개발의 생산성을 실제로 활용할 수 있게 되었다.
 
