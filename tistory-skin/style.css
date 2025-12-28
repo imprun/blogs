@@ -893,16 +893,20 @@ address, caption, cite, code, dfn, em, var {
 }
 
 .skin_view .area_view pre {
-  background-color: #F6F7F8;
+  background-color: #0d1117;
   margin: 28px auto;
   word-wrap: break-word;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 14px;
-  line-height: 20px
+  line-height: 20px;
+  border-radius: 6px;
+  overflow-x: auto;
 }
 
 .skin_view .area_view pre code.hljs {
   padding: 16px;
+  background-color: #0d1117;
+  color: #e6edf3;
 }
 
 .skin_view .area_view iframe {
@@ -3286,9 +3290,69 @@ hr[data-ke-style='style8'],
   font-size: 14px;
   padding: 20px;
   font-family: SF Mono, Menlo, Consolas, Monaco, monospace;
-  border: solid 1px #ebebeb;
+  border: none;
+  border-radius: 6px;
   line-height: 1.71;
   overflow: auto;
+  background-color: #0d1117 !important;
+  color: #e6edf3 !important;
+}
+
+/* Highlight.js GitHub Dark Theme */
+.hljs {
+  background: #0d1117 !important;
+  color: #e6edf3 !important;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-title,
+.hljs-section,
+.hljs-doctag,
+.hljs-type,
+.hljs-name,
+.hljs-strong {
+  color: #ff7b72 !important;
+}
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition,
+.hljs-quote,
+.hljs-attr {
+  color: #a5d6ff !important;
+}
+.hljs-comment,
+.hljs-deletion {
+  color: #8b949e !important;
+}
+.hljs-variable,
+.hljs-template-variable,
+.hljs-number,
+.hljs-regexp,
+.hljs-link,
+.hljs-meta {
+  color: #79c0ff !important;
+}
+.hljs-built_in,
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: #ffa657 !important;
+}
+.hljs-attribute,
+.hljs-function,
+.hljs-title.function_,
+.hljs-title.function_.invoke__ {
+  color: #d2a8ff !important;
+}
+.hljs-subst {
+  color: #e6edf3 !important;
+}
+.hljs-params {
+  color: #e6edf3 !important;
+}
+.hljs-property {
+  color: #79c0ff !important;
 }
 
 /* 접은 글 */
