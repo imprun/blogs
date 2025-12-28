@@ -33,6 +33,7 @@ imprun-blogs/
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/100 | [Git Worktree로 AI 에이전트 동시 개발하기: 실전 튜토리얼](2025/12/28/git-worktree-multi-agent-tutorial.md) |
 | https://blog.imprun.dev/99 | [Google Antigravity 업데이트 주의: 같은 폴더에서 AI 도구 동시 사용 시 작업 손실 위험](2025/12/22/google-antigravity-update-git-checkout-warning.md) |
 | https://blog.imprun.dev/98 | [HTTP Cookie Deep Dive: 웹 상태 관리의 핵심](2025/12/22/http-cookie-deep-dive.md) |
 | https://blog.imprun.dev/97 | [Next.js + Tailwind CSS v4 + shadcn/ui 테마 시스템 구축 가이드](2025/12/22/nextjs-tailwind-v4-shadcn-theming-guide.md) |
