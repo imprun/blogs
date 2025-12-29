@@ -1,4 +1,4 @@
-# Git Worktree로 AI 에이전트 동시 개발하기: 실전 튜토리얼
+# Git Worktree로 Claude Code 멀티 에이전트 환경 구축하기
 
 > **작성일**: 2025년 12월 28일
 > **카테고리**: Git, AI Development, Workflow
@@ -6,11 +6,9 @@
 
 ## 요약
 
-Claude Code를 여러 개 띄워서 frontend와 backend를 동시에 개발하거나, 여러 페이지를 병렬로 작업하면 생산성이 배가될 것이라 기대했다. 현실은 달랐다. 한 에이전트가 작업을 마치고 빌드나 타입체크를 실행하면, 다른 에이전트가 수정 중인 파일 때문에 빌드가 실패했다. 같은 파일을 동시에 수정하려는 충돌도 발생했다.
+Claude Code를 여러 개 동시에 실행하면 개발 속도를 높일 수 있다. 하지만 같은 프로젝트 폴더에서 여러 에이전트가 작업하면 빌드 충돌과 파일 충돌이 발생한다.
 
-결국 여러 에이전트를 띄워놔도 실제로는 하나만 사용하게 되었다.
-
-git worktree를 도입한 후, 상황이 바뀌었다. main 브랜치로 전체 상태를 모니터링하는 VSCode 하나, 개별 기능 브랜치를 개발하는 VSCode 여러 개를 띄워서 멀티 에이전트를 충돌 없이 운영할 수 있게 되었다.
+git worktree를 사용하면 이 문제를 해결할 수 있다. 하나의 저장소에서 여러 작업 디렉토리를 만들어 각 Claude Code 인스턴스가 독립적으로 작업하도록 구성한다. 이 글에서는 Claude Code로 worktree를 생성하고 멀티 에이전트 환경을 구축하는 방법을 소개한다.
 
 ## 문제: 같은 폴더에서 멀티에이전트 충돌
 
@@ -265,3 +263,7 @@ git worktree를 활용하면 여러 Claude Code 인스턴스를 충돌 없이 �
 - [Git Worktree 공식 문서](https://git-scm.com/docs/git-worktree)
 - [GitKraken - Git Worktree 가이드](https://www.gitkraken.com/learn/git/git-worktree)
 - [Atlassian Git Worktree 가이드](https://www.atlassian.com/git/tutorials/git-worktree)
+
+### 관련 블로그
+
+- [Google Antigravity 업데이트 주의: 같은 폴더에서 AI 도구 동시 사용 시 작업 손실 위험](https://blog.imprun.dev/99) - Git Worktree가 필요해진 배경
