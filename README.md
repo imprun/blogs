@@ -33,6 +33,14 @@ imprun-blogs/
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/111 | [Envoy Gateway 확장성: External Processing, WASM, Lua](2026/01/02/envoy-gateway-extensibility.md) |
+| https://blog.imprun.dev/110 | [Envoy Gateway 트래픽 관리: Rate Limiting, Circuit Breaker, Load Balancing](2026/01/02/envoy-gateway-traffic-management.md) |
+| https://blog.imprun.dev/109 | [Envoy Gateway 보안: 인증/인가 완벽 가이드](2026/01/02/envoy-gateway-security.md) |
+| https://blog.imprun.dev/108 | [Envoy Gateway 확장 API: Policy Attachment 모델과 실전 활용](2026/01/02/envoy-gateway-extension-apis.md) |
+| https://blog.imprun.dev/107 | [Gateway API 핵심 리소스 가이드: GatewayClass, Gateway, HTTPRoute](2026/01/02/envoy-gateway-gateway-api-resources.md) |
+| https://blog.imprun.dev/106 | [Envoy Gateway 개요: Kubernetes 네이티브 API Gateway의 새로운 표준](2026/01/02/envoy-gateway-overview.md) |
+| https://blog.imprun.dev/105 | [Claude Code 12월 사용 리포트: 23억 토큰의 한 달](2025/12/30/claude-code-usage-report-december-2025.md) |
+| https://blog.imprun.dev/104 | [Next.js + FSD + Clean Architecture: 하이브리드 아키텍처 설계](2025/12/30/nextjs-fsd-clean-architecture-hybrid.md) |
 | https://blog.imprun.dev/103 | [Claude Code 컨텍스트 최적화 실전 가이드](2025/12/29/claude-code-context-token-optimization.md) |
 | https://blog.imprun.dev/102 | [Claude Code v2.0.76 LSP 트러블슈팅: 레이스 컨디션 버그와 해결책](2025/12/28/claude-code-lsp-troubleshooting.md) |
 | https://blog.imprun.dev/101 | [Git Worktree로 AI 에이전트 동시 개발하기: 실전 튜토리얼](2025/12/28/git-worktree-multi-agent-tutorial.md) |
