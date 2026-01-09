@@ -1,0 +1,542 @@
+research_brief:
+  topic: "Warp 터미널의 무료 기능 - 터미널 대체제로서의 가치"
+  date: "2026-01-08"
+  researcher: "astory-researcher"
+
+  collected:
+    web_sources: 18
+    images: 0
+    videos: 0
+
+  executive_summary: |
+    Warp는 Rust로 작성되고 GPU 가속 렌더링을 사용하는 현대적인 터미널 에뮬레이터다.
+    모든 터미널 기능은 완전 무료이며, 유료 플랜은 AI 기능에만 적용된다.
+    2025년 2월 Windows 지원, 6월 Warp 2.0 출시로 주요 플랫폼을 모두 지원한다.
+
+    주의: Claude Code 사용 시 Warp에서 스크롤 버그가 발생한다.
+    이는 Warp 특유의 블록 기반 렌더링과 Claude Code의 전체 터미널 재그리기 방식 충돌로 인한 것이다.
+    iTerm2나 macOS 기본 터미널에서는 발생하지 않으므로, Claude Code 사용 시에는 Warp 대신 다른 터미널 권장.
+
+  sources:
+    - id: 1
+      url: "https://www.warp.dev/pricing"
+      title: "Warp Pricing - The Agentic Development Environment"
+      type: official_docs
+      credibility: high
+      relevance: high
+      key_points:
+        - "Free 플랜: $0/월, 처음 2개월 150 AI 크레딧, 이후 75 크레딧/월"
+        - "Build 플랜: $18/월, 1,500 AI 크레딧, BYOK 지원"
+        - "Business 플랜: $45/사용자/월, 최대 50석, SSO 및 Zero Data Retention"
+        - "모든 터미널 기능은 완전 무료, 유료는 AI 기능만 해당"
+      accessed: "2026-01-08"
+
+    - id: 2
+      url: "https://www.warp.dev/all-features"
+      title: "Warp All Features"
+      type: official_docs
+      credibility: high
+      relevance: high
+      key_points:
+        - "블록 UI: 입력과 출력을 그룹화하여 탐색, 공유, 필터링 용이"
+        - "IDE 스타일 편집: 마우스 및 커서 지원, Vim 키바인딩"
+        - "스마트 자동완성: 수백 개 명령어에 대한 TAB 자동완성"
+        - "커스텀 테마 및 프롬프트 지원"
+        - "Zsh, Bash, fish, PowerShell, WSL, Git Bash 지원"
+      accessed: "2026-01-08"
+
+    - id: 3
+      url: "https://docs.warp.dev/terminal/comparisons/performance"
+      title: "Warp Performance Documentation"
+      type: official_docs
+      credibility: high
+      relevance: high
+      key_points:
+        - "VTE 벤치마크: Warp 66.47ms, iTerm2 93.01ms, Alacritty 16.78ms"
+        - "스크롤 작업: Warp 30.06ms, Alacritty 31.75ms (경쟁력 있음)"
+        - "Termbench 전체: Warp 20.0s, iTerm2 25.04s, Alacritty 2.94s"
+        - "iTerm2 대비 우수한 성능, Alacritty보다는 느림"
+      accessed: "2026-01-08"
+
+    - id: 4
+      url: "https://www.warp.dev/blog/2025-in-review"
+      title: "Warp Wrapped: 2025 in Review"
+      type: official_docs
+      credibility: high
+      relevance: high
+      key_points:
+        - "2025년 2월: Windows 공식 출시 (PowerShell, WSL, Git Bash, x64/ARM64)"
+        - "2025년 6월: Warp 2.0 출시 - Agentic Development Environment"
+        - "에이전트가 32억 줄 코드 편집, 120,000+ 코드베이스 인덱싱"
+        - "Terminal-Bench 61.2%, SWE-bench Verified 75.6% 달성"
+        - "BYOK(Bring Your Own Key) 지원으로 OpenAI/Anthropic/Google API 사용 가능"
+      accessed: "2026-01-08"
+
+    - id: 5
+      url: "https://www.warp.dev/blog/how-warp-works"
+      title: "How Warp Works - Technical Architecture"
+      type: official_docs
+      credibility: high
+      relevance: high
+      key_points:
+        - "Rust로 작성, GPU에서 직접 렌더링"
+        - "macOS에서 Metal API 사용, 400+ FPS 가능"
+        - "4K 모니터에서 144fps 이상 렌더링"
+        - "wgpu 기반 렌더러로 Linux/Windows/웹 지원"
+        - "UI는 rectangles, glyphs, icons 세 가지 프리미티브로 구성"
+      accessed: "2026-01-08"
+
+    - id: 6
+      url: "https://github.com/warpdotdev/Warp/issues/8089"
+      title: "Aggressive scrolling bug in Warp when using Claude Code"
+      type: github
+      credibility: high
+      relevance: high
+      key_points:
+        - "Claude Code 사용 시 Warp에서 공격적인 자동 스크롤 발생"
+        - "5-6 페이지 스크롤백 누적 시 키 입력마다 상단으로 스크롤 후 복귀"
+        - "iTerm2나 macOS 기본 터미널에서는 발생하지 않음 - Warp 특유 문제"
+        - "워크어라운드: tmux 내에서 Claude Code 실행, /compact 명령 사용"
+        - "2025년 12월 기준 미해결 상태"
+      accessed: "2026-01-08"
+
+    - id: 7
+      url: "https://github.com/anthropics/claude-code/issues/3648"
+      title: "Terminal Scrolling Uncontrollably During Claude Code Interaction"
+      type: github
+      credibility: high
+      relevance: high
+      key_points:
+        - "IDE 터미널(Cursor, VS Code)에서 제어 불가능한 스크롤 발생"
+        - "대화가 길어지거나 슬래시 명령 입력 시 트리거"
+        - "621개 좋아요, 305+ 댓글로 광범위한 영향"
+        - "근본 원인: Claude Code가 스트리밍 출력 청크마다 전체 터미널 재그리기"
+        - "초당 4,000-6,700 스크롤 이벤트 발생"
+      accessed: "2026-01-08"
+
+    - id: 8
+      url: "https://docs.warp.dev/features/blocks/block-basics"
+      title: "Block Basics - Warp Documentation"
+      type: official_docs
+      credibility: high
+      relevance: medium
+      key_points:
+        - "블록은 명령과 출력을 하나의 원자적 단위로 그룹화"
+        - "각 명령과 출력에 대해 별도 그리드 생성"
+        - "블록별 검색, 명령/출력 분리 복사 가능"
+        - "CTRL-UP/DOWN으로 블록 간 탐색"
+        - "Sticky Command Header로 긴 출력에서도 명령 확인 가능"
+      accessed: "2026-01-08"
+
+    - id: 9
+      url: "https://docs.warp.dev/features/integrations-and-plugins"
+      title: "Warp Terminal Integrations"
+      type: official_docs
+      credibility: high
+      relevance: medium
+      key_points:
+        - "VSCode 통합: SHIFT-CMD-C로 외부 터미널로 Warp 실행"
+        - "Windows: Terminal External Exec 설정에서 warp.exe 경로 지정"
+        - "JetBrains IDE 지원 (macOS only)"
+        - "Docker, Raycast 확장 지원 (macOS only)"
+        - "Warp를 VSCode 내장 터미널로 사용 불가 - 외부 터미널로만 실행"
+      accessed: "2026-01-08"
+
+    - id: 10
+      url: "https://www.warp.dev/blog/launching-warp-on-windows"
+      title: "Warp, the intelligent terminal, now available on Windows"
+      type: official_docs
+      credibility: high
+      relevance: medium
+      key_points:
+        - "2025년 2월 Windows 공식 출시"
+        - "PowerShell, WSL, Git Bash 지원"
+        - "x64 및 ARM64 아키텍처 지원"
+        - "macOS/Linux와 동일한 코어 경험 제공"
+      accessed: "2026-01-08"
+
+    - id: 11
+      url: "https://www.warp.dev/linux-terminal"
+      title: "Warp for Linux"
+      type: official_docs
+      credibility: high
+      relevance: medium
+      key_points:
+        - ".deb (Debian, Ubuntu), .rpm (Red Hat, Fedora, SUSE), .tar.zst (Arch) 패키지"
+        - "x64 및 ARM64 아키텍처 지원"
+        - "macOS와 동일한 성능 및 기능"
+        - "GPU 렌더링으로 빠른 성능"
+      accessed: "2026-01-08"
+
+    - id: 12
+      url: "https://www.warp.dev/compare-terminal-tools/alacritty-vs-warp"
+      title: "Warp vs Alacritty Comparison"
+      type: official_docs
+      credibility: medium
+      relevance: medium
+      key_points:
+        - "Alacritty: 오픈소스, Apache 2.0, 58.5k GitHub 스타"
+        - "Alacritty: 완전 로컬, 텔레메트리/계정/클라우드 없음"
+        - "Alacritty: 최소주의 - 탭 없음 (tmux 필요)"
+        - "Warp: AI 지원, 팀 협업, IDE 스타일 기능"
+      accessed: "2026-01-08"
+
+    - id: 13
+      url: "https://docs.warp.dev/support-and-billing/plans-and-pricing/pricing-faqs"
+      title: "Warp Pricing FAQs"
+      type: official_docs
+      credibility: high
+      relevance: medium
+      key_points:
+        - "모든 터미널 기능은 Windows, Mac, Linux에서 완전 무료"
+        - "유료 플랜은 AI 기능에만 해당"
+        - "대기업도 Free 플랜 사용 가능, 업그레이드 강제 없음"
+        - "미사용 AI 크레딧은 다음 주기로 이월되지 않음"
+      accessed: "2026-01-08"
+
+    - id: 14
+      url: "https://www.warp.dev/blog/warp-new-pricing-flexibility-byok"
+      title: "Changes to Warp's pricing: Introducing Build"
+      type: official_docs
+      credibility: high
+      relevance: medium
+      key_points:
+        - "2025년 10월 기존 Pro, Turbo, Lightspeed 플랜 폐지"
+        - "새로운 Build 플랜 $20/월 (현재 $18로 조정)"
+        - "BYOK로 OpenAI, Anthropic, Google API 키 직접 사용 가능"
+        - "절반 이상의 사용자가 비용 절감 또는 $2 미만 증가"
+      accessed: "2026-01-08"
+
+    - id: 15
+      url: "https://namiru.ai/blog/claude-code-s-terminal-flickering-700-upvotes-9-months-still-broken"
+      title: "Claude Code's Terminal Flickering: 700+ Upvotes, Still Broken"
+      type: blog
+      credibility: medium
+      relevance: high
+      key_points:
+        - "2025년 3월부터 보고된 터미널 플리커링 버그"
+        - "700+ 통합 좋아요에도 Anthropic 미수정"
+        - "IDE 충돌 및 제어 불가능한 스크롤 유발"
+        - "근본 원인: 증분 업데이트 대신 전체 터미널 재그리기"
+      accessed: "2026-01-08"
+
+    - id: 16
+      url: "https://medium.com/@jasmine.mauge/warp-delving-into-the-world-of-gpu-rendering-and-ai-59274930982f"
+      title: "Warp: GPU Rendering and AI in Terminal Applications"
+      type: blog
+      credibility: medium
+      relevance: medium
+      key_points:
+        - "Metal API로 macOS에서 400+ FPS 렌더링"
+        - "wgpu로 Vulkan, Metal, Direct3D 12 크로스플랫폼 지원"
+        - "200줄 코드로 셰이더 구현"
+        - "듀얼 GPU MacBook에서 고성능 GPU 강제 사용 (배터리 영향)"
+      accessed: "2026-01-08"
+
+    - id: 17
+      url: "https://thenewstack.io/warp-goes-agentic-a-developer-walk-through-of-warp-2-0/"
+      title: "Warp Goes Agentic: Developer Walk-Through of Warp 2.0"
+      type: blog
+      credibility: medium
+      relevance: medium
+      key_points:
+        - "Warp 2.0: Code, Agents, Terminal, Drive 통합"
+        - "Agent Mode: 다단계 작업 실행, 명령 실행 권한 요청"
+        - "Full Terminal Use: REPL, 디버거, top 같은 전체 화면 앱과 상호작용"
+        - "시장에서 유일한 Full Terminal Use 기능 보유"
+      accessed: "2026-01-08"
+
+    - id: 18
+      url: "https://dev.to/thelazyindiantechie/10-warp-terminal-features-that-will-change-how-you-code-5a1l"
+      title: "10 Warp Terminal Features That Will Change How You Code"
+      type: blog
+      credibility: medium
+      relevance: medium
+      key_points:
+        - "블록 기반 출력으로 Jupyter 노트북 같은 경험"
+        - "400+ CLI 도구에 대한 명령어, 스위치, 인자 추천"
+        - "작업하면서 개인화된 추천 제공"
+        - "멀티라인 명령 편집 용이"
+      accessed: "2026-01-08"
+
+  images: []
+  # Warp 공식 사이트 이미지는 직접 링크 가능하나, 저작권 확인 필요
+  # 블로그 작성 시 공식 문서 스크린샷 참조 권장
+
+  videos: []
+  # YouTube 검색 결과 중 공식 Warp 채널 영상 확인 필요
+
+  section_mapping:
+    introduction:
+      hook_source: [4, 17]  # Warp 2025 in Review, Warp 2.0 Agentic
+      background_sources: [1, 2]  # Pricing, All Features
+
+    free_features_section:
+      primary_sources: [2, 8, 13]  # All Features, Block Basics, Pricing FAQs
+      supporting_sources: [18]  # 10 Features blog
+
+    gpu_acceleration_section:
+      primary_sources: [3, 5, 16]  # Performance, How Warp Works, GPU blog
+
+    pricing_section:
+      primary_sources: [1, 13, 14]  # Pricing, FAQs, New Pricing blog
+
+    platform_support_section:
+      primary_sources: [10, 11]  # Windows blog, Linux page
+      supporting_sources: [4]  # 2025 Review
+
+    ide_integration_section:
+      primary_sources: [9]  # Integrations docs
+
+    claude_code_issue_section:
+      primary_sources: [6, 7, 15]  # Warp issue, Claude Code issue, Namiru blog
+      warning: "Claude Code 사용 시 Warp 권장하지 않음 - iTerm2 또는 기본 터미널 사용"
+
+    comparison_section:
+      primary_sources: [3, 12]  # Performance, Alacritty comparison
+
+    conclusion:
+      summary_sources: [1, 4, 6]  # Pricing, 2025 Review, Claude Code issue
+
+  free_features_summary:
+    terminal_core:
+      - name: "블록 기반 UI (Blocks)"
+        description: "명령어와 출력을 그룹화하여 탐색, 검색, 공유 가능"
+
+      - name: "GPU 가속 렌더링"
+        description: "Metal(macOS)/wgpu(크로스플랫폼)으로 400+ FPS 가능"
+
+      - name: "IDE 스타일 편집"
+        description: "마우스 클릭, 커서 이동, 멀티라인 편집 지원"
+
+      - name: "Vim 키바인딩"
+        description: "Vi 스타일 탐색 및 텍스트 삽입"
+
+      - name: "스마트 자동완성"
+        description: "400+ CLI 도구에 대한 TAB 자동완성"
+
+      - name: "커스텀 테마"
+        description: "테마 라이브러리 또는 직접 제작"
+
+      - name: "커스텀 프롬프트"
+        description: "Powerlevel10k 등 기존 프롬프트 임포트 지원"
+
+      - name: "명령어 히스토리 검색"
+        description: "종료 코드, 디렉토리, 타임스탬프 포함"
+
+      - name: "블록 공유"
+        description: "터미널 입력/출력에 대한 퍼머링크 생성"
+
+      - name: "셸 호환성"
+        description: "Zsh, Bash, fish, PowerShell, WSL, Git Bash"
+
+    ai_free_tier:
+      - name: "AI 크레딧"
+        description: "처음 2개월 150 크레딧/월, 이후 75 크레딧/월"
+
+      - name: "모델 접근"
+        description: "OpenAI, Anthropic, Google 모델 제한적 접근"
+
+      - name: "코드베이스 인덱싱"
+        description: "3개 코드베이스, 코드베이스당 3,000 파일"
+
+  paid_features_summary:
+    build_plan:
+      price: "$18/월"
+      features:
+        - "1,500 AI 크레딧/월"
+        - "Ambient Agents (베타)"
+        - "40개 인덱싱 코드베이스, 100,000 파일"
+        - "BYOK (OpenAI/Anthropic/Google API 키)"
+        - "무제한 Warp Drive 오브젝트"
+        - "프라이빗 이메일 지원"
+
+    business_plan:
+      price: "$45/사용자/월"
+      features:
+        - "최대 50석"
+        - "팀 전체 Zero Data Retention"
+        - "SAML 기반 SSO"
+        - "Build 플랜의 모든 기능 포함"
+
+  claude_code_compatibility:
+    status: "NOT_RECOMMENDED"
+    issue_summary: |
+      Warp에서 Claude Code 사용 시 심각한 스크롤 버그 발생.
+      대화 기록이 5-6 페이지 이상 누적되면 키 입력마다 상단으로 스크롤 후 복귀.
+      이는 Warp의 블록 기반 렌더링과 Claude Code의 전체 터미널 재그리기 방식 충돌로 인함.
+
+    affected_environments:
+      - "Warp 터미널 (독립 실행)"
+      - "VSCode/Cursor 내장 터미널"
+      - "IntelliJ IDEA 터미널"
+
+    unaffected_environments:
+      - "iTerm2"
+      - "macOS 기본 Terminal.app"
+      - "Alacritty"
+
+    workarounds:
+      - method: "tmux 사용"
+        description: "tmux 내에서 Claude Code 실행 시 증상 완화"
+        effectiveness: "부분적"
+
+      - method: "/compact 명령"
+        description: "대화 기록 압축으로 스크롤백 감소"
+        effectiveness: "일시적"
+
+      - method: "터미널 변경"
+        description: "iTerm2 또는 기본 터미널 사용"
+        effectiveness: "완전"
+
+    github_issues:
+      - "warpdotdev/Warp#8089"
+      - "anthropics/claude-code#3648"
+      - "anthropics/claude-code#826"
+      - "anthropics/claude-code#9935"
+
+    root_cause: |
+      Claude Code가 스트리밍 출력의 각 청크마다 전체 터미널을 재그리기함.
+      초당 4,000-6,700 스크롤 이벤트 발생.
+      증분 업데이트 대신 전체 재그리기 방식 사용.
+
+  platform_support:
+    macos:
+      status: "Full Support"
+      gpu_api: "Metal"
+      shells: ["Zsh", "Bash", "fish"]
+
+    linux:
+      status: "Full Support"
+      packages: [".deb", ".rpm", ".tar.zst"]
+      architectures: ["x64", "ARM64"]
+      gpu_api: "wgpu (Vulkan backend)"
+      shells: ["Zsh", "Bash", "fish"]
+
+    windows:
+      status: "Full Support (2025년 2월 출시)"
+      architectures: ["x64", "ARM64"]
+      shells: ["PowerShell", "WSL", "Git Bash"]
+      gpu_api: "wgpu (Direct3D 12 backend)"
+
+  citations:
+    - id: 1
+      title: "Warp Pricing"
+      url: "https://www.warp.dev/pricing"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 2
+      title: "Warp All Features"
+      url: "https://www.warp.dev/all-features"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 3
+      title: "Warp Performance Documentation"
+      url: "https://docs.warp.dev/terminal/comparisons/performance"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 4
+      title: "Warp Wrapped: 2025 in Review"
+      url: "https://www.warp.dev/blog/2025-in-review"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 5
+      title: "How Warp Works"
+      url: "https://www.warp.dev/blog/how-warp-works"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 6
+      title: "Aggressive scrolling bug in Warp when using Claude Code"
+      url: "https://github.com/warpdotdev/Warp/issues/8089"
+      accessed: "2026-01-08"
+      type: "github"
+
+    - id: 7
+      title: "Terminal Scrolling Uncontrollably During Claude Code Interaction"
+      url: "https://github.com/anthropics/claude-code/issues/3648"
+      accessed: "2026-01-08"
+      type: "github"
+
+    - id: 8
+      title: "Block Basics - Warp Documentation"
+      url: "https://docs.warp.dev/features/blocks/block-basics"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 9
+      title: "Warp Terminal Integrations"
+      url: "https://docs.warp.dev/features/integrations-and-plugins"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 10
+      title: "Launching Warp on Windows"
+      url: "https://www.warp.dev/blog/launching-warp-on-windows"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 11
+      title: "Warp for Linux"
+      url: "https://www.warp.dev/linux-terminal"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 12
+      title: "Warp vs Alacritty Comparison"
+      url: "https://www.warp.dev/compare-terminal-tools/alacritty-vs-warp"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 13
+      title: "Warp Pricing FAQs"
+      url: "https://docs.warp.dev/support-and-billing/plans-and-pricing/pricing-faqs"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 14
+      title: "Changes to Warp's pricing: Introducing Build"
+      url: "https://www.warp.dev/blog/warp-new-pricing-flexibility-byok"
+      accessed: "2026-01-08"
+      type: "official_docs"
+
+    - id: 15
+      title: "Claude Code's Terminal Flickering: 700+ Upvotes, Still Broken"
+      url: "https://namiru.ai/blog/claude-code-s-terminal-flickering-700-upvotes-9-months-still-broken"
+      accessed: "2026-01-08"
+      type: "blog"
+
+    - id: 16
+      title: "Warp: GPU Rendering and AI in Terminal Applications"
+      url: "https://medium.com/@jasmine.mauge/warp-delving-into-the-world-of-gpu-rendering-and-ai-59274930982f"
+      accessed: "2026-01-08"
+      type: "blog"
+
+    - id: 17
+      title: "Warp Goes Agentic: Developer Walk-Through of Warp 2.0"
+      url: "https://thenewstack.io/warp-goes-agentic-a-developer-walk-through-of-warp-2-0/"
+      accessed: "2026-01-08"
+      type: "blog"
+
+    - id: 18
+      title: "10 Warp Terminal Features That Will Change How You Code"
+      url: "https://dev.to/thelazyindiantechie/10-warp-terminal-features-that-will-change-how-you-code-5a1l"
+      accessed: "2026-01-08"
+      type: "blog"
+
+  research_limitations:
+    - "YouTube 공식 튜토리얼 비디오 미수집 - 추가 검색 필요"
+    - "Warp 공식 스크린샷/이미지 미수집 - 저작권 확인 후 사용 권장"
+    - "Claude Code 스크롤 버그 수정 일정 미확인 - 두 프로젝트 모두 미해결 상태"
+    - "Warp 2.0 이후 무료 기능 변경 가능성 - 최신 pricing 페이지 재확인 권장"
+
+  writer_recommendations:
+    - "Claude Code 사용자에게 Warp 권장하지 말 것 - iTerm2 또는 기본 터미널 권장"
+    - "무료 기능 강조: 모든 터미널 기능 무료, 유료는 AI만 해당"
+    - "성능 비교 시 Alacritty가 더 빠르지만 Warp는 iTerm2보다 빠름 명시"
+    - "플랫폼 지원: 2025년부터 Windows/Linux/macOS 모두 지원"
+    - "BYOK 옵션 언급: 자신의 API 키로 AI 기능 사용 가능"
