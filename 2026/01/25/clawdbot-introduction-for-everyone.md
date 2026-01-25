@@ -4,6 +4,8 @@
 **카테고리**: AI, Automation, Productivity  
 **키워드**: Clawdbot, AI Assistant, Claude, Automation, Discord Bot
 
+[##_Image|kage@c64n7q/dJMcabXiRkV/AAAAAAAAAAAAAAAAAAAAAHMsRCFZnvu2ZkTSz3I3hjSdz-bxPRXZYBck5XFpMPnF/img.png|alignCenter|width="100%"|_##]
+
 ## 요약
 
 Clawdbot은 Claude AI를 24시간 작동하는 개인 비서로 만들어주는 오픈소스 도구다. Discord, Telegram 등 원하는 메신저로 대화하고, 뉴스 체크부터 코드 작성까지 자동화할 수 있다. 이 글은 기술 배경 없는 일반인도 따라할 수 있도록 설치부터 실전 활용까지 안내한다.
