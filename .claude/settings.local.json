@@ -2,7 +2,23 @@
   "permissions": {
     "allow": [
       "Bash(npx ccusage@latest daily --since 20251101 --until 20251211 --no-color)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "WebFetch(domain:www.warp.dev)",
+      "WebFetch(domain:docs.warp.dev)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Skill(astory-blog-writers:anti-ai-validator)",
+      "Skill(astory-blog-writers:post)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:mlearning.substack.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:zelili.com)",
+      "WebFetch(domain:claudelog.com)",
+      "Bash(git add:*)",
+      "WebFetch(domain:docs.streamlit.io)",
+      "Bash(head:*)",
+      "Bash(gh issue view:*)",
+      "mcp__stitch__list_projects"
     ]
   }
 }
