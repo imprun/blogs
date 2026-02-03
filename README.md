@@ -33,6 +33,8 @@ imprun-blogs/
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/165 | [Superpowers 플러그인: Claude Code를 체계적인 개발 파트너로 만드는 방법](2026/02/03/claude-code-superpowers-plugin-guide.md) |
+| https://blog.imprun.dev/164 | [Claude Code GitHub 통합 워크플로우: 200k Context에서 대규모 프로젝트 관리하기](2026/02/03/claude-code-github-workflow-integration.md) |
 | https://blog.imprun.dev/163 | [Windows에서 Claude Code가 갑자기 멍청해진 이유: Bash 도구의 빈 출력 버그](2026/01/31/claude-code-windows-bash-empty-output-fix.md) |
 | https://blog.imprun.dev/162 | [Windows에서 uvicorn 종료 후 포트가 풀리지 않는 문제: 유령 프로세스 추적기](2026/01/28/uvicorn-windows-zombie-process-port-binding.md) |
 | https://blog.imprun.dev/161 | [Claude Code와 Stitch MCP 연동: AI 기반 프론트엔드 개발 워크플로우](2026/01/23/stitch-mcp-claude-code-integration-guide.md) |

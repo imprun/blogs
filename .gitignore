@@ -1,3 +1,22 @@
 .idea/
 .draft/
 draft/
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+
+# Remotion
+out/
+audio-cache/
+
+# Credentials (민감 정보)
+serviceaccount.json
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
