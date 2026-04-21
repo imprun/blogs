@@ -33,6 +33,7 @@ imprun-blogs/
 
 |  실제 블로그 링크 | 원본 markdown link |
 |-----|------|
+| https://blog.imprun.dev/178 | [Tailscale Exit Node: 원격 프록시 대신 한 줄 설정으로 VPN을 얻다](2026/04/21/tailscale-exit-node-full-vpn.md) |
 | https://blog.imprun.dev/165 | [Superpowers 플러그인: Claude Code를 체계적인 개발 파트너로 만드는 방법](2026/02/03/claude-code-superpowers-plugin-guide.md) |
 | https://blog.imprun.dev/164 | [Claude Code GitHub 통합 워크플로우: 200k Context에서 대규모 프로젝트 관리하기](2026/02/03/claude-code-github-workflow-integration.md) |
 | https://blog.imprun.dev/163 | [Windows에서 Claude Code가 갑자기 멍청해진 이유: Bash 도구의 빈 출력 버그](2026/01/31/claude-code-windows-bash-empty-output-fix.md) |
